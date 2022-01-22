@@ -8,7 +8,7 @@ import sys
 import shutil
 
 
-workdir = "/home/woocash/dev/python/fsweeper/messy_dir"
+workdir = "./messy_dir"
 
 known_extensions = ('mp3', 'avi', 'pdf')
 files = os.listdir(workdir)

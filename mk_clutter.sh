@@ -1,7 +1,7 @@
 #!/bin/bash
 
 extensions=("mp3" "avi" "pdf")
-workdir=/home/woocash/dev/python/tidy_dir/messy_dir
+workdir=./messy_dir
 
 
 for extension in ${extensions[@]};do
