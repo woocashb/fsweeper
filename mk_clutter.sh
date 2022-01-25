@@ -1,6 +1,6 @@
 #!/bin/bash
 
-extensions=("mp3" "avi" "PDF")
+extensions=("mp3" "avi" "PDF" "doc" 'mp4' 'wav' 'txt' 'torrent' 'mkv')
 workdir=./messy_dir
 
 if [[ $1 == 'rm' ]];then
