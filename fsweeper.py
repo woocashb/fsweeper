@@ -2,12 +2,11 @@
 
 # Desc: file sweeper - organize files by their extension in given directory
 import os
-from os.path import join
+from os.path import join, basename, abspath
 import sys
 # os.rename does not support cross filesystem file moving as opposed to shutil.move
 import shutil
-
-
+import time
 
 def usage():
     print("Usage: {} DIR".format(sys.argv[0]))
@@ -16,8 +15,16 @@ def usage():
 if len(sys.argv) != 2 or not os.path.isdir(sys.argv[1]):
     usage()
 
-
+# strip extension from script name and use it as a base for log file name with log extension
+log_file = join(os.getcwd(), basename(sys.argv[0].split('.')[1]) + ".log" )
 workdir = sys.argv[1]
+time_stamp = time.strftime("%Y-%m-%d %H:%M")
+
+def log(msg):
+    with open(log_file, 'a+') as log_file_handle:
+        log_entry = "{} - {}\n".format(time_stamp, msg)
+        log_file_handle.write(log_entry)
+
 
 archive_formats = ['zip', 'gz', 'tar', '7z', 'lzma']
 audio_formats = ['mp3', 'ogg', 'mp4a', 'wav']
@@ -35,11 +42,12 @@ for workdir_entry in workdir_entries:
     if os.path.isfile(join(os.getcwd(), workdir, workdir_entry)):
       files.append(workdir_entry)
 
-
 for category, extensions in known_extensions.items():
     for file in files:
         for extension in extensions:
             if extension.lower() in file.lower():
               if not os.path.exists(join(workdir, category)):
                 os.mkdir(join(workdir, category))
+                log("'{}' directory created".format(category))
               shutil.move(join(workdir, file), join(workdir, category))
+              log("moved file '{}' to '{}'".format(join(abspath(workdir), file), join(abspath(workdir), category)))
